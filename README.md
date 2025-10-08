@@ -22,7 +22,7 @@ This project is a minimal Android app that captures camera frames, processes the
 
 # Screenshots
 ![WebView](screenshots/web_view.png)
-![PhoneView](screenshots/phone_view.png)
+![PhoneView](screenshots/phone_view.jpg)
 
 
 
