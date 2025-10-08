@@ -21,8 +21,9 @@ This project is a minimal Android app that captures camera frames, processes the
 - Displays the latest processed frame as a base64-encoded image.
 
 # Screenshots
-![WebView](https://photos.app.goo.gl/ktBGcnqc1NXsbL7F7)
-![PhoneView](https://photos.app.goo.gl/7vjmj9HzAWZfLF759)
+![WebView](screenshots/web_view.png)
+![PhoneView](screenshots/phone_view.png)
+
 
 
 ## Architecture & Folder Structure
