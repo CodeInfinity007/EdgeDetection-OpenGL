@@ -1,26 +1,31 @@
 #include <jni.h>
 #include <opencv2/opencv.hpp>
+#include <cstring>
+using namespace cv;
 
-extern "C"
+extern "C" {
+
 JNIEXPORT void JNICALL
 Java_com_div_edgedetectionapp_NativeLib_processFrame(
-    JNIEnv* env,
-    jobject thiz,
-    jbyteArray input,
-    jint width,
-    jint height,
-    jbyteArray output
-) {
-    jbyte* inBytes = env->GetByteArrayElements(input, NULL);
-    jbyte* outBytes = env->GetByteArrayElements(output, NULL);
+        JNIEnv* env,
+        jobject,
+        jbyteArray input,
+        jint width,
+        jint height,
+        jbyteArray output) {
 
-    cv::Mat gray(height, width, CV_8UC1, reinterpret_cast<unsigned char*>(inBytes));
+    jbyte* inputBytes = env->GetByteArrayElements(input, nullptr);
+    jbyte* outputBytes = env->GetByteArrayElements(output, nullptr);
 
-    cv::Mat edges;
-    cv::Canny(gray, edges, 50, 150);
 
-    memcpy(outBytes, edges.data, width * height);
+    Mat gray(height, width, CV_8UC1, reinterpret_cast<unsigned char*>(inputBytes));
+    Mat edges;
 
-    env->ReleaseByteArrayElements(input, inBytes, 0);
-    env->ReleaseByteArrayElements(output, outBytes, 0);
+    Canny(gray, edges, 80, 150);
+
+    memcpy(outputBytes, edges.data, width * height);
+
+    env->ReleaseByteArrayElements(input, inputBytes, 0);
+    env->ReleaseByteArrayElements(output, outputBytes, 0);
+}
 }
