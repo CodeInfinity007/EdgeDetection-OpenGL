@@ -1,79 +1,134 @@
 
-# Edge Detection-OpenGL
+#  Edge Detection-OpenGL
 
-## Overview
-This project is a minimal Android app that captures camera frames, processes them using OpenCV in C++ via JNI, and displays the processed output using OpenGL ES 2.0. A small TypeScript-based web viewer is included to demonstrate receiving and displaying processed frames over WebSocket.
+### **Overview** 
+
+This project is a dynamic Android app that captures real-time camera frames, processes them using **OpenCV** in C++ via **JNI**, and displays the processed output using **OpenGL ES 2.0**. It even includes a **Web Viewer** to stream processed frames over **WebSocket** for remote display.
 
 
-## Features Implemented
 
-### Android App
-- Camera feed capture using Camera2 API.
-- JNI integration to process frames using OpenCV C++:
-  - Grayscale conversion.
-  - Canny edge detection.
-- Real-time rendering of processed frames with OpenGL ES 2.0.
-- Toggle button to switch between raw feed and edge-detected output.
-- FPS counter displaying processing frame rate.
 
-### Web Viewer
-- TypeScript + HTML page that connects to the Android app over WebSocket.
-- Displays the latest processed frame as a base64-encoded image.
+## **💻 Tech Stack**
 
-# Screenshots
+-   **Android App**:
+    
+    -   **Kotlin**: For Android app development and camera handling.
+        
+    -   **JNI**: For integrating OpenCV’s C++ code.
+        
+    -   **OpenGL ES 2.0**: For real-time graphics rendering.
+        
+    -   **WebSocket**: For live frame streaming to the web viewer.
+        
+-   **Web Viewer**:
+    
+    -   **HTML** + **TypeScript**: The frontend code to display frames in a web browser.
+        
+    -   **WebSocket**: For live communication between the Android device and the web client.
+        
+-   **C++ with OpenCV**: Image processing via OpenCV (grayscale conversion and Canny edge detection) in **NativeLib.cpp**.
+
+## **🎨 Features Implemented**
+
+#### **Android App** 📲
+
+-   **Camera Feed Capture**: Using the **Camera2 API**, it captures high-quality video frames from the device camera.
+    
+-   **OpenCV Processing (via JNI)**:
+    
+    -   **Grayscale Conversion** 
+        
+    -   **Canny Edge Detection**
+        
+-   **OpenGL ES 2.0 Rendering**: Real-time rendering of the processed frame with smooth OpenGL graphics.
+    
+-   **Toggle Button**: Easily switch between the raw camera feed and the edge-detected output for visual comparison.
+    
+-   **FPS Counter**: Displays the real-time frame rate, showing how quickly the device is processing and rendering frames. 
+    
+
+#### **Web Viewer** 🌐
+
+-   **WebSocket Communication**: Connects to the Android app to stream the processed frames in real time.
+    
+-   **Base64-Encoded Image**: The processed frame is encoded and displayed as a base64 image in a modern web browser. 🔗🌍
+    
+
+
+
+## **🚀 How It Works**
+
+1.  **Capture Camera Feed** 📸: The app uses the **Camera2 API** to access the device's camera and capture video frames.
+    
+2.  **Process via OpenCV (C++)** ⚙️: The captured frames are sent to the **NativeLib.cpp** file via **JNI** for processing (grayscale or edge detection).
+    
+3.  **Return Processed Frame** 🔄: Once processed, the frame is sent back to the Android app.
+    
+4.  **Real-Time Rendering with OpenGL** 🖥️: The processed frame is rendered on the screen using **OpenGL ES 2.0** for smooth and efficient display.
+    
+5.  **WebSocket Streaming** 🌐: The processed frame is then streamed over **WebSocket** to the **web viewer** where it’s displayed live in a web browser.
+    
+
+
+
+    
+
+----------
+# 📸 Screenshots
 ![WebView](screenshots/web_view.png)
 ![PhoneView](screenshots/phone_view.jpg)
 
 
+### **📂 Architecture & Folder Structure**
 
-## Architecture & Folder Structure
-
+```
 /app
-├── java/
-│ ├── MainActivity.kt # Camera capture, GLSurfaceView setup, WebSocket server
-│ └── GLRenderer.kt # OpenGL ES 2.0 renderer
-├── cpp/
-│ └── NativeLib.cpp # OpenCV processing via JNI
+ ├── java/
+      ├── MainActivity.kt   						# Camera feed, GLSurfaceView setup
+      └── GLRenderer.kt     						# Renderer
+	  └── FrameWebSocketServer.kt     				# Web Server
+ ├── cpp/
+      └── NativeLib.cpp     						# OpenCV processing logic via JNI
 /web
-├── index.html # Web viewer page
-└── main.ts # TypeScript WebSocket client
+ ├── index.html             						# Web viewer page (HTML)
+ └── main.ts                						# TypeScript WebSocket client
+
+```
+
+----------
+
+### **⚙️ Setup Instructions**
+
+#### **Android** 🖥️
+
+1.  **Install Android Studio** (with NDK and CMake support).
+    
+2.  Clone this repository and open it in **Android Studio**.
+    
+3.  Sync Gradle to ensure the **NDK**/C++ toolchain is detected.
+    
+4.  Build and run on a device (minimum API 24).
+    
+5.  **Grant camera permissions** when prompted to access the camera.
+    
+
+#### **Web** 🌐
+
+1.  Open **web/index.html** in any modern browser.
+    
+2.  Ensure both the Android device and the web machine are on the **same network**.
+    
+3.  In **main.ts**, update the WebSocket IP to match the Android device's IP:
+    
+    ```js
+    const ws = new WebSocket("ws://<ANDROID_IP>:8080");
+    
+    ```
+    
+
+    
 
 
-**Notes:**
-- OpenCV logic is implemented entirely in C++ (`NativeLib.cpp`) via JNI.
-- OpenGL rendering is modularized in `GLRenderer.kt`.
-- Web viewer connects via WebSocket to display processed frames.
-- For simplicity, the `gl` folder is merged into the Java/Kotlin code folder.
-
-
-
-## Setup Instructions
-
-### Android
-1. Install **Android Studio** with NDK and CMake support.
-2. Clone this repository and open in Android Studio.
-3. Sync Gradle to ensure NDK/C++ toolchain is detected.
-4. Build and run on an Android device (minimum API 24 recommended).
-5. Grant camera permission when prompted.
-
-### Web
-1. Open `web/index.html` in any modern browser.
-2. Ensure the Android device and the web viewer machine are on the same network.
-3. Update the WebSocket IP in `main.ts` if necessary (your Android device IP):
-   ```typescript
-   const ws = new WebSocket("ws://<ANDROID_IP>:8080");
-Serve the web folder using a local server if needed:
-
-
-
-## Frame Flow
-
- - Camera frame captured on Android device.
- - Frame sent to NativeLib.cpp via JNI.
- - OpenCV processes the frame (grayscale or edge-detected).
- - Processed frame returned to Android.
- - GLRenderer displays frame in real-time.
- - Frame sent over WebSocket to web viewer.
-
+    
 
 
